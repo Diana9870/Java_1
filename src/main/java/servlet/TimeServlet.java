@@ -35,12 +35,14 @@ public class TimeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String timezone = req.getParameter("timezone");
+        String timezoneParam = req.getParameter("timezone");
+        String timezone = timezoneParam;
 
         if (timezone == null && req.getCookies() != null) {
             for (Cookie cookie : req.getCookies()) {
                 if ("lastTimezone".equals(cookie.getName())) {
                     timezone = cookie.getValue();
+                    break;
                 }
             }
         }
@@ -49,9 +51,11 @@ public class TimeServlet extends HttpServlet {
             timezone = "UTC";
         }
 
-        Cookie cookie = new Cookie("lastTimezone", timezone);
-        cookie.setMaxAge(60 * 60);
-        resp.addCookie(cookie);
+        if (timezoneParam != null) {
+            Cookie cookie = new Cookie("lastTimezone", timezoneParam);
+            cookie.setMaxAge(60 * 60);
+            resp.addCookie(cookie);
+        }
 
         ZoneOffset offset = timezone.equals("UTC")
                 ? ZoneOffset.UTC
@@ -71,4 +75,4 @@ public class TimeServlet extends HttpServlet {
 
         templateEngine.process("time", context, resp.getWriter());
     }
-}
+}}
