@@ -8,3 +8,16 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+# Налаштування IntelliJ IDEA
+.idea/
+*.iml
+out/
+gen/
+
+# Результати збірки Maven
+target/
+
+# Тимчасові файли ОС
+.DS_Store
+Thumbs.db
